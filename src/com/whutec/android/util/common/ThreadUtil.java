@@ -1,11 +1,13 @@
-package com.whutec.android.util.thread;
+package com.whutec.android.util.common;
 
+import android.os.Looper;
 import android.util.Log;
 
 /**
- * 线程工具类
  * @author keshuangjie
- *
+ * @date 2014-12-2 下午3:42:48
+ * @version 1.0
+ * 线程工具类
  */
 public class ThreadUtil {
 	
@@ -16,6 +18,14 @@ public class ThreadUtil {
 	public static long getTreadId(){
 		Thread t = Thread.currentThread();
 		return t.getId();
+	}
+	
+	/**
+	 * 判断当前是否是主线程
+	 * @return
+	 */
+	public static boolean isMainThread(){
+		return Thread.currentThread() == Looper.getMainLooper().getThread();
 	}
 	
 	/***

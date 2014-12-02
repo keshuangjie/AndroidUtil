@@ -23,7 +23,7 @@ import android.graphics.drawable.Drawable;
  * 图片转换工具类
  * @author keshuangjie
  */
-public class ImageUtil {
+public class BitmapUtil {
 
 	/**
 	 * 从资源中换取Bitmap
