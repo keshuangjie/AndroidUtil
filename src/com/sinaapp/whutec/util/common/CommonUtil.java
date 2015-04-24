@@ -28,5 +28,27 @@ public class CommonUtil {
 		return (int) (pxValue / scale + 0.5f);
 	}
 
+    /**
+     * Check a Object array is empty or not.
+     *
+     * @param objs
+     * @return
+     */
+    public static boolean isArrayEmpty(Object[] objs) {
+        if (objs == null || objs.length == 0) {
+            return true;
+        }
+
+        boolean isEmpty = true;
+        for (Object obj : objs) {
+            if (obj != null) {
+                isEmpty = false;
+                break;
+            }
+        }
+
+        return isEmpty;
+    }
+
 
 }
