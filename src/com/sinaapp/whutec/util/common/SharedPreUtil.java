@@ -32,7 +32,6 @@ public class SharedPreUtil {
 	public void putInt(String key, int value){
 		Editor edit = getEditor();
 		edit.putInt(key, value);
-		edit.commit();
 	}
 	
 	public boolean getBoolean(String key){
@@ -46,8 +45,16 @@ public class SharedPreUtil {
 	public void putBoolean(String key, boolean value){
 		Editor edit = getEditor();
 		edit.putBoolean(key, value);
-		edit.commit();
 	}
+
+    public void putFloat(String key, float value) {
+        Editor edit = getEditor();
+        edit.putFloat(key, value);
+    }
+
+    public float getFloat(String key, float defaultValue) {
+        return sp.getFloat(key, defaultValue);
+    }
 	
 	public int getInt(String key){
 		return sp.getInt(key, -1);

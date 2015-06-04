@@ -21,7 +21,6 @@ public class SysAPIUtil {
 
     private DpiInfo mDpiInfo = new DpiInfo();
 
-
     private MacAddressInfo macAddressInfo = new MacAddressInfo();
 
     private LocationInfo mLocationInfo = new LocationInfo();
