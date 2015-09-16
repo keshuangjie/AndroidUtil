@@ -4,15 +4,16 @@ import java.io.File;
 
 /**
  * @author keshuangjie
- * @date 2014-12-2 ä¸‹åˆ3:43:25
- * æ–‡ä»¶å·¥å…·ç±»
+ * @date 2014-12-2 ÏÂÎç3:43:25
+ * ÎÄ¼þ´¦Àí¹¤¾ßÀà
  */
 public class FileUtil {
 	
 	/**
-	 * èŽ·å–æ–‡ä»¶åŽç¼€
-	 * @param file
-	 * @return
+	 *  »ñÈ¡ÎÄ¼þºó×º
+	 *
+	 *  @param file
+	 *  @return
 	 */
 	public static String getSuffix(File file) {
 		final String path = file.getAbsolutePath();
@@ -22,9 +23,10 @@ public class FileUtil {
 	}
 
 	/**
-	 * èŽ·å–æ–‡ä»¶åŽç¼€
-	 * @param filename
-	 * @return
+	 *  »ñÈ¡ÎÄ¼þºó×º
+	 *
+	 *  @param filename
+	 *  @return
 	 */
 	public static String getSuffix(String filename) {
 		if ((filename != null) && (filename.length() > 0)) {
@@ -35,5 +37,204 @@ public class FileUtil {
 		}
 		return filename;
 	}
+
+    /**
+     * Ð´Èë¶ÔÏóÁÐ±íµ½Ö¸¶¨ÎÄ¼þ
+     * 
+     * @param filename
+     * @param objs
+     */
+    public static void writeObjectsToFile(String filename, List<Object> objs) {
+        File file = new File(filename);
+
+        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(file);
+            objOutputStream = new ObjectOutputStream(fileOutputStream);
+            for (Object obj : objs) {
+                objOutputStream.writeObject(obj);
+            }
+        } catch (IOException e) {
+            MecpLogUtil.e(MecpStatisticsManage.class.getSimpleName() + "writeObjectsToFile() error:" + e.getMessage());
+        } finally {
+            try {
+                if (objOutputStream != null) {
+                    objOutputStream.close();
+                }
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+            } catch (IOException e) {
+                MecpLogUtil.e(MecpStatisticsManage.class.getSimpleName() + "writeObjectsToFile() error:"
+                        + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Ð´Èë¶ÔÏóµ½Ö¸¶¨ÎÄ¼þ
+     * 
+     * @param filename
+     * @param obj
+     */
+    public static void writeObjectToFile(String filename, Object obj) {
+        File file = new File(filename);
+
+        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(file);
+            objOutputStream = new ObjectOutputStream(fileOutputStream);
+            objOutputStream.writeObject(obj);
+        } catch (IOException e) {
+            MecpLogUtil.e(MecpStatisticsManage.class.getSimpleName() + "writeObjectsToFile() error:" + e.getMessage());
+        } finally {
+            try {
+                if (objOutputStream != null) {
+                    objOutputStream.close();
+                }
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+            } catch (IOException e) {
+                MecpLogUtil.e(MecpStatisticsManage.class.getSimpleName() + "writeObjectsToFile() error:"
+                        + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * ´ÓÎÄ¼þÖÐ¶ÁÈ¡¶ÔÏó
+     * 
+     * @param filename
+     * @return ·µ»Ø¶ÔÏóÁÐ±í
+     * @throws FileNotFoundException
+     */
+    public static List<Object> readObjectsFromFile(String filename) throws FileNotFoundException {
+        File file = new File(filename);
+
+        if (!file.exists())
+            throw new FileNotFoundException();
+
+        List<Object> list = new ArrayList<Object>();
+
+        ObjectInputStream objInputStream = null;
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(file);
+            objInputStream = new ObjectInputStream(fileInputStream);
+
+            while (fileInputStream.available() > 0) {
+                list.add(objInputStream.readObject());
+            }
+        } catch (IOException e) {
+            MecpLogUtil.e(MecpStatisticsManage.class.getSimpleName() + "readObjectsFromFile() error:" + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            MecpLogUtil.e(MecpStatisticsManage.class.getSimpleName() + "readObjectsFromFile() error:" + e.getMessage());
+        } finally {
+            try {
+                if (objInputStream != null) {
+                    objInputStream.close();
+                }
+                if (fileInputStream != null) {
+                    fileInputStream.close();
+                }
+            } catch (IOException e) {
+                MecpLogUtil.e(MecpStatisticsManage.class.getSimpleName() + "readObjectsFromFile() error:"
+                        + e.getMessage());
+
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * ºÏ²¢¶ÔÏóÁÐ±íµ½Ö¸¶¨ÎÄ¼þ
+     * 
+     * @param objs
+     * @param filename
+     * @throws FileNotFoundException
+     */
+    public static void appendObjectsToFile(List<Object> objs, String filename)
+            throws FileNotFoundException {
+        File file = new File(filename);
+        if (!file.exists())
+            throw new FileNotFoundException();
+
+        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(file, true);
+            objOutputStream = new ObjectOutputStream(fileOutputStream) {
+                protected void writeStreamHeader()
+                        throws IOException {
+                }
+            };
+
+            for (Object obj : objs) {
+                objOutputStream.writeObject(obj);
+            }
+        } catch (IOException e) {
+            MecpLogUtil.e(MecpStatisticsManage.class.getSimpleName() + "appendObjectsToFile() error:"
+                    + e.getMessage());
+        } finally {
+            try {
+                if (objOutputStream != null) {
+                    objOutputStream.close();
+                }
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+            } catch (IOException e) {
+                MecpLogUtil.e(MecpStatisticsManage.class.getSimpleName() + "appendObjectsToFile() error:"
+                        + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * ºÏ²¢¶ÔÏóµ½Ö¸¶¨ÎÄ¼þ
+     * 
+     * @param filename
+     * @param obj
+     * @throws FileNotFoundException
+     */
+    public static void appendObjectToFile(String filename, Object obj)
+            throws FileNotFoundException {
+
+        File file = new File(filename);
+        if (!file.exists())
+            throw new FileNotFoundException();
+
+        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(file, true);
+            objOutputStream = new ObjectOutputStream(fileOutputStream) {
+                protected void writeStreamHeader()
+                        throws IOException {
+                }
+            };
+
+            objOutputStream.writeObject(obj);
+        } catch (IOException e) {
+            MecpLogUtil.e(MecpStatisticsManage.class.getSimpleName() + "appendObjectsToFile() error:"
+                    + e.getMessage());
+        } finally {
+            try {
+                if (objOutputStream != null) {
+                    objOutputStream.close();
+                }
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+            } catch (IOException e) {
+                MecpLogUtil.e(MecpStatisticsManage.class.getSimpleName() + "appendObjectsToFile() error:"
+                        + e.getMessage());
+            }
+        }
+    }
 	
 }
